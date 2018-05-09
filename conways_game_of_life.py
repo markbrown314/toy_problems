@@ -52,7 +52,7 @@ board[1][2] = 1
 board[2][2] = 1
 
 # advance
-for n in range(100):
+for n in range(10):
     print("move #", n+1)
     display(board)
     board = advance(board)
