@@ -4,7 +4,8 @@ MAX_Y = 10
 def check(board, coord_list):
     life = 0
     for coord in coord_list:
-        if coord[0] >= MAX_X or coord[1] >= MAX_Y or coord[0] < 0 or coord[1] < 0:
+        if (coord[0] >= MAX_X or coord[1] >= MAX_Y
+            or coord[0] < 0 or coord[1] < 0):
             continue
         if board[coord[0]][coord[1]]:
             life += 1
