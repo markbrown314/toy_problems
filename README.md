@@ -1,4 +1,5 @@
-# project_euler_py
-My Solutions to Project Euler Problems in Python
+# Toy Problems
+My Solutions to various toy problems
+Code quality may vary
 
 Run on Python 3.6
