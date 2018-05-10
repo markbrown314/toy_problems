@@ -1,28 +1,24 @@
-MAX_X = 10
-MAX_Y = 10
+MAX_X_Y = (10,10)
 
-def edge (cell, board, nboard):
-    x,y = cell
-    neighb_list = [(x-1,y),(x+1,y),(x,y-1),(x,y+1),
-                  (x-1,y-1),(x+1,y-1),(x-1,y+1),(x+1,y+1)]
-    for (x,y) in neighb_list:
-        nboard[(x,y)] = board.get((x,y), 0)
+def get_neigbors(cell):
+    (x,y) = cell
+    return [(x-1,y),(x+1,y),(x,y-1),(x,y+1),
+           (x-1,y-1),(x+1,y-1),(x-1,y+1),(x+1,y+1)]
+
+def edge (cell, board):
+    for (x,y) in get_neigbors(cell):
+        board[(x,y)] = board.get((x,y), 0)
 
 def check(cell, board):
     life = 0
-    x,y = cell
-    neighb_list = [(x-1,y),(x+1,y),(x,y-1),(x,y+1),
-                   (x-1,y-1),(x+1,y-1),(x-1,y+1),(x+1,y+1)]
-    for (x,y) in neighb_list:
+    for (x,y) in get_neigbors(cell):
         if board.get((x,y),0):
             life += 1
     return life
 
 def advance(board):
-    nboard = {}
-    for cell in board:
-        edge(cell, board, nboard)
-    board = nboard
+    for cell in board.copy():
+        edge(cell, board)
 
     nboard = {}
     for cell in board:
@@ -38,8 +34,8 @@ def advance(board):
     return nboard
 
 def display(board):
-    for y in range (0, MAX_Y):
-        for x in range (0, MAX_X):
+    for y in range (0, MAX_X_Y[0]):
+        for x in range (0, MAX_X_Y[1]):
             print('',board.get((x,y), '-'),'', end='')
         print()
     print()
@@ -49,6 +45,6 @@ board = {(1,0):1, (2,1):1, (0,2):1, (1,2):1, (2,2):1}
 
 # advance
 for n in range(10):
-    print("move #", n+1)
+    print("Move #", n+1)
     display(board)
     board = advance(board)
