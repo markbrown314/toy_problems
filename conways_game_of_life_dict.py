@@ -22,10 +22,9 @@ def advance(board):
     nboard = {}
     for cell in board:
         edge(cell, board, nboard)
-    #display(nboard)
     board = nboard
-    nboard = {}
 
+    nboard = {}
     for cell in board:
             (x,y) = cell
             life = check(cell, board)
