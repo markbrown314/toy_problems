@@ -41,18 +41,23 @@ def display(board):
         print()
     print()
 
-# intialize board
-board = [[0 for x in range(MAX_X)] for y in range(MAX_Y)]
+def test_code():
+    # intialize board
+    board = [[0 for x in range(MAX_X)] for y in range(MAX_Y)]
 
-# render glider
-board[1][0] = 1
-board[2][1] = 1
-board[0][2] = 1
-board[1][2] = 1
-board[2][2] = 1
+    # render glider
+    board[1][0] = 1
+    board[2][1] = 1
+    board[0][2] = 1
+    board[1][2] = 1
+    board[2][2] = 1
 
-# advance
-for n in range(10):
-    print("move #", n+1)
-    display(board)
-    board = advance(board)
+    # advance
+    for n in range(10):
+        print("move #", n+1)
+        display(board)
+        board = advance(board)
+
+# main
+if __name__ == '__main__':
+    test_code()

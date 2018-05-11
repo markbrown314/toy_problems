@@ -40,11 +40,16 @@ def display(board):
         print()
     print()
 
-# intialize board with glider
-board = {(1,0):1, (2,1):1, (0,2):1, (1,2):1, (2,2):1}
+def test_code():
+    # intialize board with glider
+    board = {(1,0):1, (2,1):1, (0,2):1, (1,2):1, (2,2):1}
 
-# advance
-for n in range(10):
-    print("Move #", n+1)
-    display(board)
-    board = advance(board)
+    # advance
+    for n in range(10):
+        print("Move #", n+1)
+        display(board)
+        board = advance(board)
+
+# main
+if __name__ == '__main__':
+    test_code()
