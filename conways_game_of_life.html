@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <canvas id="GOLcanvas" width="1000" height="1000">
+  </canvas>
+
+  <script>
+  const MAX_X_Y = 1000
+  const SQUARE_SIZE = 10
+
+  function get_context() {
+    var canvas = document.getElementById('GOLcanvas')
+    var ctx = null
+    if (canvas.getContext) {
+      ctx = canvas.getContext('2d')
+    }
+    return ctx
+  }
+
+  function draw(ctx) {
+    for (y = 0; y < MAX_X_Y; y += SQUARE_SIZE) {
+      for (x = 0; x < MAX_X_Y; x += SQUARE_SIZE) {
+        ctx.strokeStyle = 'gainsboro'
+        ctx.fillStyle = 'white'
+        ctx.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE)
+        ctx.strokeRect(x, y, SQUARE_SIZE, SQUARE_SIZE)
+      }
+    }
+  }
+
+  function color(ctx, x, y) {
+    if (x >= 0 && x < MAX_X_Y && y >= 0 && y < MAX_X_Y) {
+      ctx.fillStyle = 'black'
+      ctx.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE)
+    }
+  }
+
+  const ctx = get_context()
+  const socket = new WebSocket('ws://localhost:8081 ')
+  socket.addEventListener('message', function (event) {
+      var obj = JSON.parse(event.data)
+      draw(ctx)
+      for (i = 0; i < obj.length; i++) {
+        if (obj[i].value) {
+          color(ctx, obj[i].x * SQUARE_SIZE, obj[i].y * SQUARE_SIZE)
+        }
+      }
+      socket.send('next')
+  })
+
+  </script>
+
+</body>
+</html>

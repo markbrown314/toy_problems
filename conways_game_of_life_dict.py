@@ -1,4 +1,6 @@
 import json
+import asyncio
+import websockets
 
 MAX_X_Y = (10,10)
 
@@ -52,17 +54,26 @@ def generate_json(board):
             json_list.append(dict([("x", x),("y", y),("value", board[key])]))
     return(json.dumps(json_list, indent=4, separators=(',',':')))
 
-def test_code():
+async def test_code(websocket, path):
     # intialize board with glider
     board = {(1,0):1, (2,1):1, (0,2):1, (1,2):1, (2,2):1}
+    n = 1
 
-    # advance
-    for n in range(10):
-        print("Move #", n+1)
-        #display(board)
-        print(generate_json(board))
+    while True:
+        print("Move #", n)
+        display(board)
+        json = generate_json(board)
+        await websocket.send(json)
+        print ("Recv...")
+        recv = await websocket.recv()
+        print ("Recv", recv)
         board = advance(board)
+        n += 1
+        await asyncio.sleep(.25)
 
 # main
 if __name__ == '__main__':
-    test_code()
+    print("Waiting for client connection...")
+    server = websockets.serve(test_code, 'localhost', 8081)
+    asyncio.get_event_loop().run_until_complete(server)
+    asyncio.get_event_loop().run_forever()
