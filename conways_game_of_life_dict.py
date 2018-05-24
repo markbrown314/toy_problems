@@ -4,18 +4,18 @@ import websockets
 
 MAX_X_Y = (10,10)
 
-def get_neigbors(cell):
+def get_neighbors(cell):
     (x,y) = cell
     return [(x-1,y),(x+1,y),(x,y-1),(x,y+1),
            (x-1,y-1),(x+1,y-1),(x-1,y+1),(x+1,y+1)]
 
 def edge (cell, board):
-    for (x,y) in get_neigbors(cell):
+    for (x,y) in get_neighbors(cell):
         board[(x,y)] = board.get((x,y), 0)
 
 def check(cell, board):
     life = 0
-    for (x,y) in get_neigbors(cell):
+    for (x,y) in get_neighbors(cell):
         if board.get((x,y), 0):
             life += 1
     return life
