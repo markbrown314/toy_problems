@@ -10,7 +10,8 @@ def set_to_string(set):
         string+=str(item)
     return string
 
-
+def permutation_iter(num):
+    pass
 
 def permutation_step(num):
     perm = sorted([int(set_to_string(item)) for item in permutations(str(num))])
@@ -19,6 +20,8 @@ def permutation_step(num):
             return i
     return -1
 
+print(permutation_step(123))
+print(permutation_step(12453))
 print(permutation_step(999))
 
     
