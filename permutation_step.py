@@ -2,7 +2,7 @@
 # being passed and return the next number greater than num using the same digits. 
 # For example: if num is 123 return 132, if it's 12453 return 12534. If a number 
 # has no greater permutations, return -1 (ie. 999).
-from itertools import permutations
+from permutation import permute
 
 def set_to_string(set):
     string = ''
@@ -10,11 +10,8 @@ def set_to_string(set):
         string+=str(item)
     return string
 
-def permutation_iter(num):
-    pass
-
 def permutation_step(num):
-    perm = sorted([int(set_to_string(item)) for item in permutations(str(num))])
+    perm = sorted([int(set_to_string(item)) for item in permute(str(num))])
     for i in perm:
         if i > num:
             return i
