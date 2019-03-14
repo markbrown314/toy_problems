@@ -103,15 +103,11 @@ int main()
 			a_sum.insert(n);
 			as.set(n);
 			v.push_back(n);
-			if (n * 2 < ASUM_MAX) bs.reset(n*2);
 		}
 
 	}
 
-	for (int j = 0; j < 24; j++) bs.reset(j);
-
 	for (int j = 0; j <= ASUM_MAX; j++) {
-		if (!bs[j]) continue;
 		/* search for nearest abundant sum */
 		for (int k = 0; k < v.size() && j > v[k]; k++) {
 			int diff = j - v[k];
