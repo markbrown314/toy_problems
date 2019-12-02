@@ -1,4 +1,5 @@
 """
+🎅🏻
 --- Part Two ---
 During the second Go / No Go poll, the Elf in charge of the Rocket Equation Double-Checker
 stops the launch sequence. Apparently, you forgot to include additional fuel for the fuel
@@ -29,19 +30,16 @@ What is the sum of the fuel requirements for all of the modules on your spacecra
 taking into account the mass of the added fuel? (Calculate the fuel requirements for each
 module separately, then add them all up at the end.)
 
-Your puzzle answer was 5268207.
 """
 def calculate_fuel(mass):
     fuel = mass//3-2
     if fuel<0: return 0
     return fuel + calculate_fuel(fuel)
 
-input_file = open("aoc_1.txt")
 total_fuel = 0
 
-for line in input_file:
-    total_fuel += calculate_fuel(int(line))
-input_file.close()
-print(total_fuel)
+with open("aoc_1.txt") as input_file:
+    for line in input_file:
+        total_fuel += calculate_fuel(int(line))
 
- 
+print(total_fuel)

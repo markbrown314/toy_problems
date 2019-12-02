@@ -1,4 +1,5 @@
 """
+🎅🏻
 --- Day 1: The Tyranny of the Rocket Equation ---
 Santa has become stranded at the edge of the Solar System while delivering presents to other planets! 
 To accurately calculate his position in space, safely align his warp drive, and return to Earth in time
@@ -26,19 +27,16 @@ fuel needed for the mass of each module (your puzzle input), then add together a
 
 What is the sum of the fuel requirements for all of the modules on your spacecraft?
 
-Your puzzle answer was 3514064.
 """
 def calculate_fuel(mass):
     fuel = mass//3-2
     if fuel<0: fuel = 0
     return fuel
 
-input_file = open("aoc_1.txt")
 total_fuel = 0
-for line in input_file:
-    total_fuel += calculate_fuel(int(line))
-input_file.close()
+
+with open("aoc_1.txt") as input_file:
+    for line in input_file:
+        total_fuel += calculate_fuel(int(line))
+
 print(total_fuel)
-
-
- 
