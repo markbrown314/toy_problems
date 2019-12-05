@@ -81,9 +81,7 @@ error; an output followed immediately by a halt means the program finished. If a
 After providing 1 to the only input instruction and passing all the tests, what diagnostic code does
 the program produce?
 """
-code_dict = {}
-
-input_data="""
+puzzle_input="""
             3,225,1,225,6,6,1100,1,238,225,104,0,1101,82,10,225,101,94,44,224,101,-165,224,224,4,
             224,1002,223,8,223,101,3,224,224,1,224,223,223,1102,35,77,225,1102,28,71,225,1102,16,
             36,225,102,51,196,224,101,-3468,224,224,4,224,102,8,223,223,1001,224,7,224,1,223,224,
@@ -116,30 +114,35 @@ input_data="""
             2,223,223,1006,224,674,1001,223,1,223,4,223,99,226
             """
 
-for (i, code) in enumerate(input_data.split(",")):
-    code_dict[i] = int(code)
+int_code = []
 
+for code in puzzle_input.split(","):
+    int_code.append(int(code))
+
+int_code[1] = 12
+int_code[2] = 2
 pc = 0
 res = 0
+
 while True:
-    op = code_dict[pc]
+    op = int_code[pc]
 
     if op == 99:
         break
 
-    r1 = code_dict[pc+1]
-    r2 = code_dict[pc+2]
-    res = code_dict[pc+3]
+    r1 = int_code[pc+1]
+    r2 = int_code[pc+2]
+    res = int_code[pc+3]
 
     if op == 1:
-        code_dict[res] = code_dict[r1] + code_dict[r2]
+        int_code[res] = int_code[r1] + int_code[r2]
         pc += 4
         continue
     if op == 2:
-        code_dict[res] = code_dict[r1] * code_dict[r2]
+        int_code[res] = int_code[r1] * int_code[r2]
         pc += 4
         continue
     print("unknown op", op, "@", pc)
     exit(1)
 
-print (code_dict[0])
+print (int_code[0])
