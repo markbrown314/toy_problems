@@ -1,4 +1,3 @@
-
 """
 🎅🏻
 --- Part Two ---
@@ -39,11 +38,10 @@ you try a pair of inputs, make sure you first reset the computer's memory to the
 Find the input noun and verb that cause the program to produce the output 19690720. 
 What is 100 * noun + verb? (For example, if noun=12 and verb=2, the answer would be 1202.)
 
+Your puzzle answer was 7870
 """
 
-code_dict = {}
-
-input_data="""
+puzzle_input="""
             1,0,0,3,1,1,2,3,1,3,4,3,1,5,0,3,2,1,10,19,1,19,5,23,1,6,23,27,
             1,27,5,31,2,31,10,35,2,35,6,39,1,39,5,43,2,43,9,47,1,47,6,51,1,
             13,51,55,2,9,55,59,1,59,13,63,1,6,63,67,2,67,10,71,1,9,71,75,2,75,
@@ -52,32 +50,34 @@ input_data="""
             127,1,127,9,0,99,2,0,14,0
             """
             
-for (i, code) in enumerate(input_data.split(",")):
-    code_dict[i] = int(code)
-code_dict[1] = 78
-code_dict[2] = 70
+int_code = []
+
+for code in puzzle_input.split(","):
+    int_code.append(int(code))
+    
+int_code[1] = 78
+int_code[2] = 70
 pc = 0
 res = 0
 while True:
-    op = code_dict[pc]
+    op = int_code[pc]
 
     if op == 99:
         break
 
-    r1 = code_dict[pc+1]
-    r2 = code_dict[pc+2]
-    res = code_dict[pc+3]
+    r1 = int_code[pc+1]
+    r2 = int_code[pc+2]
+    res = int_code[pc+3]
 
     if op == 1:
-        code_dict[res] = code_dict[r1] + code_dict[r2]
+        int_code[res] = int_code[r1] + int_code[r2]
         pc += 4
         continue
     if op == 2:
-        code_dict[res] = code_dict[r1] * code_dict[r2]
+        int_code[res] = int_code[r1] * int_code[r2]
         pc += 4
         continue
     print("unknown op", op, "@", pc)
     exit(1)
 
-print (code_dict[0])
-print (100 * code_dict[1] + code_dict[2])
+print (100 * int_code[1] + int_code[2])
