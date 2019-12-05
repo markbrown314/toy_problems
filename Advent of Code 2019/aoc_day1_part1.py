@@ -35,7 +35,7 @@ def calculate_fuel(mass):
 
 total_fuel = 0
 
-with open("aoc_1.txt") as input_file:
+with open("aoc_day1_input_data.txt") as input_file:
     for line in input_file:
         total_fuel += calculate_fuel(int(line))
 

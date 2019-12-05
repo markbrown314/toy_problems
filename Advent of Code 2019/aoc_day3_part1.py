@@ -56,7 +56,7 @@ def manhattan_distance_from_origin(coord):
     return abs(coord[0])+abs(coord[1])
 
 path_list = []
-with open("aoc_5.txt") as input_file:
+with open("aoc_day3_input_data.txt") as input_file:
     for input_data in input_file:
         input_data = input_data.rstrip("\n")
         path_list.extend(input_data.split(","))
