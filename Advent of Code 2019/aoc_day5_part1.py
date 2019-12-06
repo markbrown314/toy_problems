@@ -119,30 +119,50 @@ int_code = []
 for code in puzzle_input.split(","):
     int_code.append(int(code))
 
-int_code[1] = 12
-int_code[2] = 2
 pc = 0
-res = 0
 
 while True:
-    op = int_code[pc]
+    op_in = str(int_code[pc])
 
+    # pad the opcode to fit 5 digits
+    if len(op_in) > 5:
+        print("opcode too large", op_in)
+    extended_op = ["0" for i in range (0, 5 - len(op_in))]
+    extended_op += list(op_in)
+    print(extended_op)
+    # op is last two digits to form opcode
+    op = int("".join(extended_op[3] + extended_op[4]))
+
+    mode = [bool(int(extended_op[0])), bool(int(extended_op[1])), bool(int(extended_op[2]))]
+ 
     if op == 99:
         break
 
-    r1 = int_code[pc+1]
-    r2 = int_code[pc+2]
-    res = int_code[pc+3]
+    if op == 1 or op == 2:
+        p1 = int_code[pc+1]
+        p2 = int_code[pc+2]
+        r1 = p1 if mode[2] else int_code[p1] 
+        r2 = p2 if mode[1] else int_code[p2] 
+        res = int_code[pc+3]
 
-    if op == 1:
-        int_code[res] = int_code[r1] + int_code[r2]
+        if op == 1: int_code[res] = r1 + r2
+        if op == 2: int_code[res] = r1 * r2
+        print("op:", op, r1, r2, "addr", res, "store", int_code[res])
+
         pc += 4
         continue
-    if op == 2:
-        int_code[res] = int_code[r1] * int_code[r2]
-        pc += 4
+
+    if op == 3:
+        res = int_code[pc+1]
+        int_code[res] = int(input("input:"))
+        pc += 2
         continue
+
+    if op == 4:
+        p1 = int_code[pc+1]
+        print("output:", int_code[p1])
+        pc += 2
+        continue
+
     print("unknown op", op, "@", pc)
     exit(1)
-
-print (int_code[0])
