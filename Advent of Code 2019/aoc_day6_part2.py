@@ -74,10 +74,10 @@ I)SAN
 """
 
 orbit_map = {}
-inverse_orbit_map = {}
+child_map = {}
+parent_map = {}
 visit_map = {}
 orbit_stack = []
-object_count = {}
 transfers = 0
 
 for input_data in puzzle_input.split("\n"):
@@ -86,39 +86,47 @@ for input_data in puzzle_input.split("\n"):
     sobject = input_data.split(")")
     if len(sobject) != 2:
         continue
-    orbit_map[sobject[1]] = sobject[0]
+    orbit_map[sobject[1]] = sobject[0] # B)A, A->B
     visit_map[sobject[0]] = 0
     visit_map[sobject[1]] = 0
 
-    inverse_orbit_map[sobject[0]] = sobject[1]
+    if sobject[0] in child_map:
+        child_map[sobject[0]].append(sobject[1]) 
+    else:
+        child_map[sobject[0]] = [sobject[1]]
 
-cur = "YOU"
+    parent_map[sobject[0]] = sobject[1]
+
+print("child", child_map)
+print("parent", parent_map)
+cur = parent_map["YOU"]
 while True:
     if cur == "SAN":
         print("transfer count:", transfers-2)
         break
 
-    # descend to the left
-    if visit_map[cur] == 0:
-        visit_map[cur] += 1
-        orbit_stack.append(cur)
-        if cur in orbit_map:
-            print (cur, "->", orbit_map[cur], ":", transfers + 1)
-            cur = orbit_map[cur]
-            transfers += 1
-        continue
-
-    # descend to the right
-    if visit_map[cur] == 1:
-        visit_map[cur] += 1
-        orbit_stack.append(cur)
-        if cur in inverse_orbit_map:
-            print (cur, "->", inverse_orbit_map[cur], ":", transfers + 1)
-            cur = inverse_orbit_map[cur]
-            transfers += 1
-        continue
+    node_count = len(child_map[cur])
+    i = visit_map[cur]
 
     # go up to the parent
-    if visit_map[cur] == 2:
+    if i >= node_count:
         cur = orbit_stack.pop()
         transfers -= 1
+        continue
+
+    # descend
+    if i < node_count:
+        orbit_stack.append(cur)
+        visit_map[cur] += 1
+        print("cur", cur, "visiting:", visit_map[cur])
+
+        if cur not in child_map:
+            print ("cur", cur, "i =", i, "(empty)")
+            continue
+        prev = cur
+        cur = child_map[prev][i]
+        print (prev, "->", cur, ":", transfers + 1)
+        transfers += 1
+        continue
+    print ("done")
+    break
