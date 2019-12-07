@@ -52,31 +52,13 @@ to the object SAN is orbiting? (Between the objects they are orbiting - not betw
 """
 puzzle_input = ""
 input_data = ""
-"""
+
 with open("aoc_day6_input_data.txt") as input_file:
     for line in input_file:
         puzzle_input += line
-"""
-puzzle_input = """
-COM)B
-B)C
-C)D
-D)E
-E)F
-B)G
-G)H
-D)I
-E)J
-J)K
-K)L
-K)YOU
-I)SAN
-"""
 
 orbit_map = {}
-child_map = {}
-parent_map = {}
-visit_map = {}
+inverse_orbit_map = {}
 orbit_stack = []
 transfers = 0
 
@@ -86,47 +68,46 @@ for input_data in puzzle_input.split("\n"):
     sobject = input_data.split(")")
     if len(sobject) != 2:
         continue
-    orbit_map[sobject[1]] = sobject[0] # B)A, A->B
-    visit_map[sobject[0]] = 0
-    visit_map[sobject[1]] = 0
+    orbit_map[sobject[1]] = sobject[0]
 
-    if sobject[0] in child_map:
-        child_map[sobject[0]].append(sobject[1]) 
-    else:
-        child_map[sobject[0]] = [sobject[1]]
+    inverse_orbit_map[sobject[0]] = sobject[1]
 
-    parent_map[sobject[0]] = sobject[1]
+def search(start, end):
+    visit_map = {}
+    cur = start
+    path = {}
 
-print("child", child_map)
-print("parent", parent_map)
-cur = parent_map["YOU"]
-while True:
-    if cur == "SAN":
-        print("transfer count:", transfers-2)
-        break
+    while True:
+        path[cur] = True
 
-    node_count = len(child_map[cur])
-    i = visit_map[cur]
+        if cur == end:
+            return path
 
-    # go up to the parent
-    if i >= node_count:
-        cur = orbit_stack.pop()
-        transfers -= 1
-        continue
+        if cur not in visit_map:
+            visit_map[cur] = 0
 
-    # descend
-    if i < node_count:
-        orbit_stack.append(cur)
-        visit_map[cur] += 1
-        print("cur", cur, "visiting:", visit_map[cur])
-
-        if cur not in child_map:
-            print ("cur", cur, "i =", i, "(empty)")
+        if visit_map[cur] == 0:
+            visit_map[cur] += 1
+            orbit_stack.append(cur)
+            if cur in orbit_map:
+                #print (cur, "->", orbit_map[cur])
+                cur = orbit_map[cur]
             continue
-        prev = cur
-        cur = child_map[prev][i]
-        print (prev, "->", cur, ":", transfers + 1)
-        transfers += 1
-        continue
-    print ("done")
-    break
+
+you = search("YOU", "COM")
+santa = search("SAN", "COM")
+shared_orbits = []
+
+for orbits in you:
+    if orbits in santa:
+        shared_orbits.append(orbits)
+
+del you["YOU"]
+del santa["SAN"]
+
+for orbits in shared_orbits:
+    del you[orbits]
+    del santa[orbits]
+
+print(you, santa)
+print("transfers: ", len(you)+len(santa))
