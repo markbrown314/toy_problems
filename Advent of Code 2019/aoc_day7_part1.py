@@ -127,10 +127,9 @@ def amplifier(phase, input_sig):
             res = int_code[pc+1]
             if input_stage == 0:
                 int_code[res] = phase
-                print("phase: ", phase)
+
             if input_stage == 1:
                 int_code[res] = input_sig
-                print("input_sig: ", input_sig)
 
             input_stage += 1
             pc += 2
@@ -182,5 +181,5 @@ for phase_array in phase_permutatons:
         a_input = amplifier(phase_array[i], a_input)
     if a_input > max_output:
         max_output = a_input
-print ("\n")
+
 print (max_output)
