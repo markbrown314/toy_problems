@@ -22,28 +22,44 @@ dvszwmarrgswjxmb is naughty because it contains only one vowel.
 How many strings are nice?
 """
 
-puzzle_input = "ugknbfddgicrmopn"
-prev_state = "+"
-vowel_count = 0
-vowel_set = {'a','e','i','o','u'}
-naughty_set = {'ab','cd','pq','xy'}
-dupe_found = False
+puzzle_input = ""
+nice_count = 0
+total_count = 0
 
-for state in puzzle_input:
+with open("aoc_5_input.txt") as file_input:
+    for puzzle_input in file_input:
+        puzzle_input = puzzle_input.rstrip()
+        total_count += 1
+        prev_state = "+"
+        vowel_count = 0
+        vowel_set = {'a','e','i','o','u'}
+        naughty_set = {'ab','cd','pq','xy'}
+        naughty_found = False
+        dupe_found = False
 
-    check_state = prev_state + state
-    # ab, cd, pq, or xy
-    if check_state in naughty_set:
-        print("naughty!")
-        exit(0)
+        for state in puzzle_input:
 
-    if prev_state == state:
-        dupe_found = True
+            check_state = prev_state + state
+            # ab, cd, pq, or xy
+            if check_state in naughty_set:
+                print(puzzle_input, "naughty!")
+                naughty_found = True
+                break
 
-    if state in vowel_set:
-        vowel_count += 1
-if not dupe_found and vowel_count < 3:
-    print("naughty!")
-else:
-    print("nice!")
+            if prev_state == state:
+                dupe_found = True
+
+            if state in vowel_set:
+                vowel_count += 1
+
+            prev_state = state
+
+        if not dupe_found or vowel_count < 3 or naughty_found:
+            print(puzzle_input, "naughty!")
+        else:
+            print(puzzle_input, "nice!")
+            nice_count += 1
+
+print("total count =", total_count)
+print("nice count =", nice_count)
 
