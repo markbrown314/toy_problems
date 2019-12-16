@@ -120,9 +120,12 @@ while True:
         p2 = int_code[pc+2]
 
         r1 = handle(p1, mode[2]) 
-        r2 = handle(p2, mode[1]) 
-        res = int_code[pc+3]
-
+        r2 = handle(p2, mode[1])
+        if mode[0] == 2:
+            res = int_code[pc+3] + rel_base
+        else:
+            res = int_code[pc+3]
+            
         if op == 1: int_code[res] = r1 + r2
         if op == 2: int_code[res] = r1 * r2
 
@@ -130,16 +133,20 @@ while True:
         continue
 
     if op == 3:
-        res = int_code[pc+1]
-        int_code[res] = int(input("input:"))
+        p1 = int_code[pc+1]
+        if mode[2] == 2:
+            r1 = rel_base + p1
+        else:
+            r1 = p1
+        int_code[r1] = int(input("input:"))
         pc += 2
         continue
 
     if op == 4:
         p1 = int_code[pc+1]
         r1 = handle(p1, mode[2])
-        print("op", op, "p1", p1, "mode", mode, "pc", pc)
-        print("output:", r1)
+        #print("op", op, "p1", p1, "mode", mode, "pc", pc)
+        print(r1)
         pc += 2
         continue
 
@@ -160,7 +167,10 @@ while True:
         p2 = int_code[pc+2]
         r1 = handle(p1, mode[2])
         r2 = handle(p2, mode[1])
-        res = int_code[pc+3]
+        if mode[0] == 2:
+            res = int_code[pc+3] + rel_base
+        else:
+            res = int_code[pc+3]
         int_code[res] = 0
 
         if op == 7 and r1 < r2:
