@@ -22,7 +22,7 @@ paper should they order?
 Your puzzle answer was 1588178.
 """
 total_surface_area = 0
-with open("aoc_3.txt") as input_file:
+with open("aoc_2_input.txt") as input_file:
     for line in input_file:
         l,w,h = line.split('x')
         l = int(l)
