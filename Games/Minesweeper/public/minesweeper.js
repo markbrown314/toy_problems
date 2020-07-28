@@ -71,11 +71,10 @@ function render_game_map(ctx, game_context) {
           img = IMG_EIGHT_TILE
           break
         case "*":
-          if (winning_condition) {
-            img = IMG_MINE_TILE
-          } else {
-            img = IMG_MINE_HIT_TILE
-          }
+          img = IMG_MINE_TILE
+          break
+        case "!":
+          img = IMG_MINE_HIT_TILE
           break
         case "?":
           img = IMG_FLAG_TILE
