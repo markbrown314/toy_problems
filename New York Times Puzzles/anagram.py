@@ -2,7 +2,7 @@
 import itertools
 import argparse
 
-def word_lookup(word = "", dictionary = "words.txt", max_len = 10):
+def word_lookup(word:str  = "", dictionary:str = "words.txt", max_len:int = 10) -> set:
     if len(word) > int(max_len):
         raise ValueError("word is too long length: " + str(len(word)) +
                          " > max " + str(max_len))
@@ -11,7 +11,7 @@ def word_lookup(word = "", dictionary = "words.txt", max_len = 10):
         word_set = set(fp.read().splitlines())
 
     # this has n! growth so 
-    r = set()
+    r: set[str] = set()
 
     for a in itertools.permutations(str(word)):
         s = ''.join(str(e) for e in a)
